@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}AoW — Home{% endblock %}
+
+{% block content %}
+  <section class="hero glass-surface p-4 p-lg-5 mb-4">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="d-inline-flex align-items-center gap-2 badge text-bg-primary-subtle border border-primary-subtle mb-3 px-3 py-2">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Web3 Knowledge Platform</span>
+        </div>
+        <h1 class="display-5 fw-semibold mb-3">Archives of Wisdom — Own Your Learning Journey</h1>
+        <p class="lead text-secondary mb-4">
+          Turn financial education into a tradable asset: buy a Course NFT, learn, complete, earn a soulbound Certificate,
+          and collect achievement Badges that signal reputation.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-primary btn-lg px-4" href="{{ url_for('courses') }}">
+            Explore Courses <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
+          <a class="btn btn-outline-light btn-lg px-4" href="{{ url_for('dashboard') }}">
+            View Dashboard
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-panel glass-card p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="text-uppercase small text-secondary">Three-tier NFT Structure</div>
+            <span class="badge text-bg-success-subtle border border-success-subtle">Demo</span>
+          </div>
+          <div class="d-grid gap-3">
+            <div class="tier tier-1 d-flex gap-3">
+              <div class="tier-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div>
+                <div class="fw-semibold">Tier 1 — Course NFTs</div>
+                <div class="text-secondary small">Transferable: buy, learn, resell (economic loop)</div>
+              </div>
+            </div>
+            <div class="tier tier-2 d-flex gap-3">
+              <div class="tier-icon"><i class="fa-solid fa-certificate"></i></div>
+              <div>
+                <div class="fw-semibold">Tier 2 — Certificates</div>
+                <div class="text-secondary small">Soulbound: non-transferable on-chain resume</div>
+              </div>
+            </div>
+            <div class="tier tier-3 d-flex gap-3">
+              <div class="tier-icon"><i class="fa-solid fa-award"></i></div>
+              <div>
+                <div class="fw-semibold">Tier 3 — Badges</div>
+                <div class="text-secondary small">Achievements: recognition and reputation</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span class="badge tier-badge tier-badge-1">Transferable</span>
+            <i class="fa-solid fa-right-left text-primary"></i>
+          </div>
+          <h3 class="h5 fw-semibold mb-2">Buy → Own → Resell</h3>
+          <p class="text-secondary mb-0">Course NFTs can be traded, letting learners recover value after completing content.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span class="badge tier-badge tier-badge-2">Soulbound</span>
+            <i class="fa-solid fa-lock text-success"></i>
+          </div>
+          <h3 class="h5 fw-semibold mb-2">Complete → Certificate</h3>
+          <p class="text-secondary mb-0">Certificates are non-transferable and anchored to identity for credibility.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span class="badge tier-badge tier-badge-3">Reputation</span>
+            <i class="fa-solid fa-sparkles text-coral"></i>
+          </div>
+          <h3 class="h5 fw-semibold mb-2">Learn → Earn Badges</h3>
+          <p class="text-secondary mb-0">Badges represent achievements that communities can recognize and reward.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

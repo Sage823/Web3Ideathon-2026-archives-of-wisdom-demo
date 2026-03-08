@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}AoW — Dashboard{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
+    <div>
+      <h1 class="h3 fw-semibold mb-1">My Dashboard</h1>
+      <div class="text-secondary">Your wallet, transferable Course NFTs, soulbound Certificates, and achievement Badges.</div>
+    </div>
+    <a class="btn btn-outline-light" href="{{ url_for('courses') }}">
+      <i class="fa-solid fa-compass me-2"></i>Browse Courses
+    </a>
+  </div>
+
+  <div class="row g-3 mb-3">
+    <div class="col-lg-4">
+      <div class="glass-card p-4 h-100">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="text-uppercase small text-secondary">Wallet</div>
+          <i class="fa-solid fa-wallet text-primary"></i>
+        </div>
+        {% if wallet_connected %}
+          <div class="h5 fw-semibold mb-1">{{ wallet_short }}</div>
+          <div class="text-secondary small mb-3">Connected (mock)</div>
+          <div class="d-flex gap-2 flex-wrap">
+            <span class="badge text-bg-success-subtle border border-success-subtle">
+              <i class="fa-solid fa-circle-nodes me-1"></i>Ready
+            </span>
+            <span class="badge text-bg-dark border border-secondary-subtle">Session-based demo</span>
+          </div>
+        {% else %}
+          <div class="text-secondary mb-3">Connect a wallet to simulate on-chain identity.</div>
+          <form method="post" action="{{ url_for('connect_wallet') }}">
+            <button class="btn btn-primary w-100" type="submit">
+              <i class="fa-solid fa-plug-circle-bolt me-2"></i>Connect Wallet
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="glass-card p-4 h-100">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <div class="text-uppercase small text-secondary">Tier 1</div>
+            <div class="h5 mb-0 fw-semibold">Owned Course NFTs <span class="text-secondary fw-normal">(transferable)</span></div>
+          </div>
+          <span class="badge tier-badge tier-badge-1">Transferable</span>
+        </div>
+
+        {% if owned_courses %}
+          <div class="row g-3">
+            {% for c in owned_courses %}
+              <div class="col-md-6">
+                <div class="glass-inner p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="text-secondary small">{{ c.category }}</div>
+                      <div class="fw-semibold">{{ c.title }}</div>
+                    </div>
+                    {% if listings.get(c.id|string) == "listed" %}
+                      <span class="badge text-bg-warning-subtle border border-warning-subtle">
+                        <i class="fa-solid fa-store me-1"></i>Listed
+                      </span>
+                    {% endif %}
+                  </div>
+                  <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="pill"><i class="fa-solid fa-tag me-2"></i>{{ "%.2f"|format(c.price_eth) }} ETH</span>
+                    <span class="pill"><i class="fa-solid fa-feather-pointed me-2"></i>{{ c.creator }}</span>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-light btn-sm" href="{{ url_for('course_detail', course_id=c.id) }}">
+                      Open <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                    <form method="post" action="{{ url_for('resell', course_id=c.id) }}">
+                      <button class="btn btn-outline-primary btn-sm" type="submit">
+                        <i class="fa-solid fa-arrow-trend-up me-1"></i>Resell
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-secondary">
+            No Course NFTs yet. Buy one on the <a href="{{ url_for('courses') }}" class="link-light">Courses</a> page to start the buy → own → resell loop.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="glass-card p-4 h-100">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <div class="text-uppercase small text-secondary">Tier 2</div>
+            <div class="h5 mb-0 fw-semibold">Certificates <span class="text-secondary fw-normal">(soulbound)</span></div>
+          </div>
+          <span class="badge tier-badge tier-badge-2">Soulbound</span>
+        </div>
+
+        {% if certificates %}
+          <div class="d-grid gap-2">
+            {% for cert in certificates %}
+              <div class="glass-inner p-3">
+                <div class="d-flex align-items-start justify-content-between gap-2">
+                  <div>
+                    <div class="fw-semibold">{{ cert.course_title }}</div>
+                    <div class="text-secondary small">Issued to {{ cert.issued_to }}</div>
+                  </div>
+                  <div class="text-end">
+                    <span class="badge text-bg-success-subtle border border-success-subtle">
+                      <i class="fa-solid fa-lock me-1"></i>Non-transferable
+                    </span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-secondary">
+            Complete a course to mint a soulbound Certificate (shows on-chain resume value).
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="glass-card p-4 h-100">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <div class="text-uppercase small text-secondary">Tier 3</div>
+            <div class="h5 mb-0 fw-semibold">Badges <span class="text-secondary fw-normal">(achievement)</span></div>
+          </div>
+          <span class="badge tier-badge tier-badge-3">Reputation</span>
+        </div>
+
+        {% if badges %}
+          <div class="row g-2">
+            {% for b in badges %}
+              <div class="col-12">
+                <div class="glass-inner p-3 d-flex align-items-start gap-3">
+                  <div class="badge-icon"><i class="fa-solid fa-award"></i></div>
+                  <div>
+                    <div class="fw-semibold">{{ b.name }}</div>
+                    <div class="text-secondary small">{{ b.description }}</div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-secondary">Earn badges by completing courses and hitting milestones.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
